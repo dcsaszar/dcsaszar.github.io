@@ -7,7 +7,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.js"></script>
   <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-  <script src="scrivito.js"></script>
+  <script src="https://dcsaszar.github.io/scrivito.js"></script>
   <div id="application">...</div>
   <script type="text/babel">
 
@@ -15,18 +15,33 @@ const Scrivito = scrivito; // travel into the future name
 
 Scrivito.configure({
   tenant: 'scrival',
-  homepage: function() { return Scrivito.Obj.getByPath("/en"); },
+  homepage: function() { return Scrivito.Obj.getByPermalink("editors"); },
 });
 
-const Homepage = Scrivito.createObjClass({
-  name: "Homepage",
+const DocumentationPage = Scrivito.createObjClass({
+  name: "DocumentationPage",
   attributes: {
+    mainContent: "widgetlist",
     title: "string",
   }
 });
 
-Scrivito.provideComponent(Homepage, (page) =>
-  <Scrivito.React.Content tag="h1" content={ page } attribute="title" />
+Scrivito.provideComponent(DocumentationPage, (page) =>
+  <div>
+    <Scrivito.React.Content tag="h1" content={ page } attribute="title" />
+    <Scrivito.React.Content content={ page } attribute="mainContent" />
+  </div>
+);
+
+const TextWidget = Scrivito.createWidgetClass({
+  name: "TextWidget",
+  attributes: {
+    content: "html",
+  }
+});
+
+Scrivito.provideComponent(TextWidget, (widget) =>
+  <Scrivito.React.Content content={ widget } attribute="content" />
 );
 
 ReactDOM.render(
